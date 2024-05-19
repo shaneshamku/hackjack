@@ -32,22 +32,16 @@ public class Game {
 
             System.out.println("Your hand: " + player.getHand());
             System.out.println("Dealer's hand: " + dealer.getHand().getCards().get(0) + " [hidden]");
-boolean playerTurn = true;
-            while (playerTurn) {
+int playerTurn = 1;
+            while (playerTurn > 0) {
                 System.out.println("Your hand value: " + player.getHand().getHandValue());
-                System.out.print("Do you want to (1) Hit or (2) Stand? ");
-                int choice = scanner.nextInt();
-                if (choice == 1) {
-                    player.getHand().addCard(deck.dealCard());
-                    System.out.println("Your hand: " + player.getHand());
-                    if (player.getHand().getHandValue() > 21) {
-                        System.out.println("Bust! You lose.");
-                        player.loseBet();
-                        playerTurn = false;
-                    }
-                } else {
-                    playerTurn = false;
+                playerTurn = PlayerMove(playerTurn);
+                if (player.getHand().getHandValue() > 21) {
+                    System.out.println("Bust! You lose.");
+                    player.loseBet();
+                    playerTurn = -1;
                 }
+                playerTurn++;
             }
 
             if (player.getHand().getHandValue() <= 21) {
@@ -75,6 +69,44 @@ boolean playerTurn = true;
         }
         System.out.println("Thanks for playing! Your final balance is: " + player.getBalance());
     }
+
+    public int PlayerMove(int playerTurn){
+        if(playerTurn == 1){
+            System.out.print("Do you want to Hit (1), Stand (2), or double (3)? ");
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                player.getHand().addCard(deck.dealCard());
+                System.out.println("Your hand: " + player.getHand());
+            }
+            else if(choice == 3){
+                player.getHand().addCard(deck.dealCard());
+                System.out.println("Your hand: " + player.getHand());
+                player.doubleBet();
+            }
+            else{
+                playerTurn = -1;
+            }
+        }
+        else{
+            System.out.print("Do you want to Hit (1), or Stand (2)? ");
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                player.getHand().addCard(deck.dealCard());
+                System.out.println("Your hand: " + player.getHand());
+            }
+            else if(choice == 3){
+                player.getHand().addCard(deck.dealCard());
+                System.out.println("Your hand: " + player.getHand());
+                player.doubleBet();
+            }
+            else{
+                playerTurn = -1;
+            }
+
+        }
+        return playerTurn;
+    }
+
 
     public static void main(String[] args) {
         Game game = new Game();

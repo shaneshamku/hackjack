@@ -27,6 +27,14 @@ public class Player {
             this.bet = bet;
             balance -= bet;
         }
+        else{
+            System.out.println("Insufficient Funds...");
+        }
+    }
+
+    public void doubleBet(){
+        placeBet(this.bet);
+        this.bet = this.bet*2;
     }
 
     public void winBet() {
